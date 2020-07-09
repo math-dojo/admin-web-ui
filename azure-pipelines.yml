@@ -1,0 +1,106 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+- develop
+- rl* # release branches to be built should be named rl[insertSemverHere]
+#- ft* # feature branches to be built should be named ft[insertSemverHere]
+- hf* # hotfix branches to be built should be named hf[insertSemverHere]
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+  displayName: 'Install dependencies'
+
+- script: |
+    npm test
+  displayName: 'run unit and integration tests'
+
+- script: |
+    ./node_modules/.bin/webdriver-manager update --versions.chrome=79.0.3945.36
+  displayName: 'add chrome driver to node directory'
+  condition: |
+    or(
+      eq(variables['Build.Reason'], 'PullRequest'),
+      eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+      eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    )
+- script: |
+    npm run-script e2e
+  displayName: 'run end-to-end tests'
+  condition: |
+    or(
+      eq(variables['Build.Reason'], 'PullRequest'),
+      eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+      eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    )
+- script: |
+    npm run-script lint
+  displayName: 'run linting'
+  condition: |
+    or(
+      eq(variables['Build.Reason'], 'PullRequest'),
+      eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+      eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    )
+- script: |
+    npm run-script build
+  displayName: 'npm build'
+
+- task: CopyFiles@2
+  displayName: 'Copy Build Artifacts to Staging Directory'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/dist/admin-web-ui'
+    Contents: |
+      **
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: AzureCLI@2
+  displayName: 'Create Container for Build Artefacts in Storage Account'
+  inputs:
+    azureSubscription: math-dojo-admin-ui
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+        $accountNameExists = az storage account check-name --name mathdojouibuild$(Build.SourceBranchName) | ConvertFrom-Json
+        If ($accountNameExists.nameAvailable) {
+          try { 
+            az storage account create --name mathdojouibuild$(Build.SourceBranchName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-ui 
+          }
+          catch {
+            Write-Host "An error occurred:"
+            Write-Host $_
+          }
+        }
+        
+        az storage blob service-properties update --account-name mathdojouibuild$(Build.SourceBranchName) --static-website --index-document index.html --404-document index.html  --auth-mode login
+- task: AzureFileCopy@3
+  displayName: 'Copy Build Artifacts to Blob Storage'
+  inputs:
+    sourcePath: '$(Build.ArtifactStagingDirectory)'
+    azureSubscription: math-dojo-admin-ui
+    destination: AzureBlob
+    storage: 'mathdojouibuild$(Build.SourceBranchName)'
+    containerName: $web
+    copyFilesInParallel: true
+    cleanTargetBeforeCopy: true
+
+- task: AzureCLI@2
+  displayName: 'Show url for stored blob contents'
+  inputs:
+    azureSubscription: math-dojo-admin-ui
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+        az storage account show -n mathdojouibuild$(Build.SourceBranchName) -g math-dojo-hzprod-admin-ui --query "primaryEndpoints.web" --output tsv
