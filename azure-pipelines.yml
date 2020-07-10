@@ -13,6 +13,12 @@ trigger:
 pool:
   vmImage: 'windows-2019'
 
+variables:
+  ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+    appName: "pr$(System.PullRequest.PullRequestNumber)"
+  ${{ if not(eq(variables['Build.Reason'], 'PullRequest')) }}:
+    appName: "$(Build.SourceBranchName)"
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -69,21 +75,22 @@ steps:
 - task: AzureCLI@2
   displayName: 'Create Container for Build Artefacts in Storage Account'
   inputs:
-    azureSubscription: math-dojo-admin-ui
+    azureSubscription: math-dojo-admin-ui-pipeline
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-        $accountNameExists = az storage account check-name --name mathdojouibuild$(Build.SourceBranchName) --subscription 5594cd6c-b674-4323-8517-5e859a399468| ConvertFrom-Json
+       $accountNameExists = az storage account check-name --name mathdojouibuild$(appName) --subscription 5594cd6c-b674-4323-8517-5e859a399468 | ConvertFrom-Json
+        Write-Host "Does the account name exist for mathdojouibuild$(appName): $accountNameExists"
         If ($accountNameExists.nameAvailable) {
-          try { 
-            az storage account create --name mathdojouibuild$(Build.SourceBranchName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-ui --auth-mode login
+          try {
+            az storage account create --name mathdojouibuild$(appName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-web-ui --subscription 5594cd6c-b674-4323-8517-5e859a399468
+          }
           catch {
             Write-Host "An error occurred:"
             Write-Host $_
           }
         }
-        
-        az storage blob service-properties update --account-name mathdojouibuild$(Build.SourceBranchName) --static-website --index-document index.html --404-document index.html  --auth-mode login
+        az storage blob service-properties update --account-name mathdojouibuild$(appName) --static-website --index-document index.html --404-document index.html  --auth-mode login
 - task: AzureFileCopy@3
   displayName: 'Copy Build Artifacts to Blob Storage'
   inputs:
