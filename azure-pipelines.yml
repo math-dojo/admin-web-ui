@@ -90,7 +90,7 @@ steps:
             Write-Host $_
           }
         }
-        az storage blob service-properties update --account-name adminuibuild$(appName) --static-website --index-document index.html --404-document index.html  --subscription 5594cd6c-b674-4323-8517-5e859a399468
+        
 - task: AzureFileCopy@3
   displayName: 'Copy Build Artifacts to Blob Storage'
   inputs:
