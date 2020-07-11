@@ -75,7 +75,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Create Container for Build Artefacts in Storage Account'
   inputs:
-    azureSubscription: Math-Dojo-admin-web-ui-5594cd6c-b674-4323-8517-5e859a399468
+    azureSubscription: azure-ad-app-math-dojo-admin-ui-pipeline
 
     scriptType: ps
     scriptLocation: inlineScript
@@ -84,19 +84,19 @@ steps:
         Write-Host "Does the account name exist for mathdojouibuild$(appName): $accountNameExists"
         If ($accountNameExists.nameAvailable) {
           try {
-            az storage account create --name adminuibuild$(appName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-web-ui --subscription 
+            az storage account create --name adminuibuild$(appName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-web-ui --subscription 5594cd6c-b674-4323-8517-5e859a399468
           }
           catch {
             Write-Host "An error occurred:"
             Write-Host $_
           }
         }
-        az storage blob service-properties update --account-name adminuibuild$(appName) --static-website --index-document index.html --404-document index.html  --subscription 
+        az storage blob service-properties update --account-name adminuibuild$(appName) --static-website --index-document index.html --404-document index.html  --subscription 5594cd6c-b674-4323-8517-5e859a399468
 - task: AzureFileCopy@3
   displayName: 'Copy Build Artifacts to Blob Storage'
   inputs:
     sourcePath: '$(Build.ArtifactStagingDirectory)'
-    azureSubscription: math-dojo-admin-ui
+    azureSubscription: azure-ad-app-math-dojo-admin-ui-pipeline
     destination: AzureBlob
     storage: 'adminuibuild$(Build.SourceBranchName)'
     containerName: $web
@@ -106,7 +106,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Show url for stored blob contents'
   inputs:
-    azureSubscription: math-dojo-admin-ui
+    azureSubscription: azure-ad-app-math-dojo-admin-ui-pipeline
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
