@@ -80,7 +80,7 @@ steps:
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-       $accountNameExists = az storage account check-name --name adminuibuild$(appName) --subscription | ConvertFrom-Json
+       $accountNameExists = az storage account check-name --name adminuibuild$(appName)  | ConvertFrom-Json
         Write-Host "Does the account name exist for mathdojouibuild$(appName): $accountNameExists"
         If ($accountNameExists.nameAvailable) {
           try {
