@@ -84,7 +84,7 @@ steps:
         Write-Host "Does the account name exist for mathdojouibuild$(appName): $accountNameExists"
         If ($accountNameExists.nameAvailable) {
           try {
-            az storage account create --name adminuibuild$(appName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-web-ui --subscription 5594cd6c-b674-4323-8517-5e859a399468
+            az storage account create --name adminuibuild$(appName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-ui --subscription 5594cd6c-b674-4323-8517-5e859a399468
           }
           catch {
             Write-Host "An error occurred:"
