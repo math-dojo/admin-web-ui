@@ -75,7 +75,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Create Container for Build Artefacts in Storage Account'
   inputs:
-    azureSubscription: math-dojo-admin-ui-pipeline
+    azureSubscription: azure-ad-app-math-dojo-admin-ui-pipeline
 
     scriptType: ps
     scriptLocation: inlineScript
@@ -96,7 +96,7 @@ steps:
   displayName: 'Copy Build Artifacts to Blob Storage'
   inputs:
     sourcePath: '$(Build.ArtifactStagingDirectory)'
-    azureSubscription: math-dojo-admin-ui-pipeline
+    azureSubscription: azure-ad-app-math-dojo-admin-ui-pipeline
     destination: AzureBlob
     storage: 'adminuibuild$(Build.SourceBranchName)'
     containerName: $web
@@ -106,7 +106,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Show url for stored blob contents'
   inputs:
-    azureSubscription: math-dojo-admin-ui-pipeline
+    azureSubscription: azure-ad-app-math-dojo-admin-ui-pipeline
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
