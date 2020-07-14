@@ -3,7 +3,19 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  get production() {
+    return false;
+  },
+  get name() {
+    return 'default';
+  },
+  get apis() {
+    return {
+      get questionServiceConsumerEndpoint() {
+        return 'http://localhost:4201';
+      }
+    };
+  }
 };
 
 /*
