@@ -61,22 +61,21 @@
                                     <clr-radio-container>
                                         <label>Options</label>
                                         <clr-radio-wrapper *ngFor="let each of question.questionAnswerOptions">
-                                            <input type="radio" clrRadio name="sample" required value="{{each}}"
+                                            <input type="radio" clrRadio name="sample"  value="{{each}}"
                                                 formControlName="sample" />
                                             <label>{{each}}</label>
                                         </clr-radio-wrapper>
-                                        <clr-control-helper>Helper text</clr-control-helper>
-                                        <clr-control-error>This field is required!</clr-control-error>
+
                                     </clr-radio-container>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-primary" type="submit" (click)="onApprove()">
+                                <button class="btn btn-outline" type="submit" (click)="approve()">
                                     Approve
                                 </button>
                                
-                                <button class="btn" type="button" (click)="onNext()">
-                                    Next
+                                <button class="btn btn-warning-outline" type="button" (click)="reject()">
+                                    Reject
                                 </button>
                             </div>
                         </form>

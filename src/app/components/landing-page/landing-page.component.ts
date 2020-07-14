@@ -19,14 +19,11 @@ export class LandingPageComponent  {
    }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
+
     console.warn(this.newUserSignupForm.value);
-    // this.signupNewUser(this.newUserSignupForm.value);
   }
 
 
-  private signupNewUser(newUser) {
 
-  }
 
 }

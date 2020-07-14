@@ -7,7 +7,7 @@ export const environment = {
     return false;
   },
   get name() {
-    return 'default';
+    return 'preproduction';
   },
   get apis() {
     return {

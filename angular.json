@@ -66,6 +66,22 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "preproduction": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.preprod.ts"
+                }
+              ]
+            },
+            "nonproduction": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.nonprod.ts"
+                }
+              ]
             }
           }
         },
@@ -129,6 +145,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "admin-web-ui"
 }

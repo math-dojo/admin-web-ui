@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'actions', component: ActionsComponent },
   { path: 'actions/approve', component: QuestionApprovalPageComponent },
   { path: '', component: LandingPageComponent },
+  { path: 'home', component: LandingPageComponent },
   { path: '**', component: PagenotfoundComponent }
 
 ];

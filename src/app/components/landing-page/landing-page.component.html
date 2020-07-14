@@ -16,8 +16,8 @@
             </clr-password-container>
             <div class="error active" [ngClass]="{'mtdj__remove_error': newUserSignupForm.valid}">
                 Invalid user name or password
-            </div>
-            <button type="submit" [disabled]="!newUserSignupForm.valid" class="btn btn-primary">Sign In</button>
+            </div>    
+            <a routerLink="/actions" routerLinkActive="active"  type="submit"  class="btn btn-primary">Sign In</a>
             <div class="mtdj__social-login">
                 <div class="mtdj__social-login-label">
                     <span class="label-text">or connect with</span>

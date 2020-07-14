@@ -1,35 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { QuestionDto } from 'src/app/models/question-dto';
 import { QuestionService } from 'src/app/services/question.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-question-approval-page',
   templateUrl: './question-approval-page.component.html',
   styleUrls: ['./question-approval-page.component.scss']
 })
 export class QuestionApprovalPageComponent implements OnInit {
-  questions: Observable<QuestionDto[]>;
   question: QuestionDto;
-  index = 0;
   exampleForm = new FormGroup({
-    sample: new FormControl('', Validators.required),
+    sample: new FormControl(''),
   });
   constructor(
     private questionService: QuestionService,
-    private route: ActivatedRoute,
   ) { }
-
+// think about how to deal with multiple people accessing the queue and what happens to dequeued question in limbo
   ngOnInit(): void {
-    this.questions = this.questionService.getQuestionsForTopic();
+    this.questionService.getQuestionFromQueue().subscribe(question => this.question = question );
   }
-
-  onNext(): void {
-    this.questions.subscribe(x => this.question = x[this.index++]);
+  reject(): void {
+    this.questionService.getQuestionFromQueue().subscribe(question => this.question = question);
   }
-  onApprove(): void {
-    // post to question service here
+  approve(): void {
+    this.questionService.postQuestion(this.question);
+    this.questionService.getQuestionFromQueue().subscribe(question => this.question = question);
   }
 
 
