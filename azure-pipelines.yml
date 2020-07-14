@@ -81,7 +81,7 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
        $accountNameExists = az storage account check-name --name adminuibuild$(appName) --subscription 5594cd6c-b674-4323-8517-5e859a399468 | ConvertFrom-Json
-        Write-Host "Does the account name exist for mathdojouibuild$(appName): $accountNameExists"
+        Write-Host "Does the account name exist for adminuibuild$(appName): $accountNameExists"
         If ($accountNameExists.nameAvailable) {
           try {
             az storage account create --name adminuibuild$(appName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-ui --subscription 5594cd6c-b674-4323-8517-5e859a399468
