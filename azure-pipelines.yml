@@ -98,7 +98,7 @@ steps:
     sourcePath: '$(Build.ArtifactStagingDirectory)'
     azureSubscription: math-dojo-admin-ui-pipeline
     destination: AzureBlob
-    storage: 'adminuibuild$(Build.SourceBranchName)'
+    storage: 'adminuibuild$(appName)'
     containerName: $web
     copyFilesInParallel: true
     cleanTargetBeforeCopy: true
@@ -110,4 +110,4 @@ steps:
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-        az storage account show -n adminuibuild$(Build.SourceBranchName) -g math-dojo-hzprod-admin-ui --query "primaryEndpoints.web" --output tsv
+        az storage account show -n adminuibuild$(appName) -g math-dojo-hzprod-admin-ui --query "primaryEndpoints.web" --output tsv
