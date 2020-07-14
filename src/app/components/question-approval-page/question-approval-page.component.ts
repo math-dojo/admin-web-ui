@@ -12,7 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class QuestionApprovalPageComponent implements OnInit {
   questions: Observable<QuestionDto[]>;
   question: QuestionDto;
-  index: number = 0;
+  index = 0;
   exampleForm = new FormGroup({
     sample: new FormControl('', Validators.required),
   });
@@ -29,9 +29,9 @@ export class QuestionApprovalPageComponent implements OnInit {
     this.questions.subscribe(x => this.question = x[this.index++]);
   }
   onApprove(): void {
-    //post to question service here
+    // post to question service here
   }
- 
 
- 
+
+
 }

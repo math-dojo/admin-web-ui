@@ -7,7 +7,7 @@ import { ActionsComponent } from './components/actions/actions.component';
 
 
 const routes: Routes = [
- 
+
   { path: 'actions', component: ActionsComponent },
   { path: 'actions/approve', component: QuestionApprovalPageComponent },
   { path: '', component: LandingPageComponent },
