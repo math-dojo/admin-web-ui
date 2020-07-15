@@ -64,7 +64,7 @@ export class QuestionService {
 
   postQuestion(question: QuestionDto) {
     if (environment.name === 'default') {
-   
+
     }
     this.http.post<QuestionDto>(`${
       environment.apis.questionServiceConsumerEndpoint
