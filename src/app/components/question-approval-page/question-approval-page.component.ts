@@ -20,11 +20,11 @@ export class QuestionApprovalPageComponent implements OnInit {
 
     this.questionService.getQuestionFromQueue().
     subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
-    console.log("here");
+    console.log('here');
   }
   reject(): void {
     this.questionService.getQuestionFromQueue().subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
-    
+
   }
   approve(): void {
     this.questionService.postQuestion(this.question);
