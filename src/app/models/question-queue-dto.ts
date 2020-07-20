@@ -9,6 +9,12 @@ export class QuestionQueueDto {
         this.messageText = messageText;
     }
 
-
+    static createDtoWithNonEmptyFields({
+        messageText = ''
+    } = {}): QuestionQueueDto {
+        return new QuestionQueueDto({
+            messageText
+        });
+    }
 
 }

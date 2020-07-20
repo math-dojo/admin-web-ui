@@ -1,10 +1,10 @@
 import { of } from 'rxjs';
-import { QuestionDto } from '../app/models/question-dto';
+import { QuestionQueueDto } from '../app/models/question-queue-dto';
 import { QuestionService } from '../app/services/question.service';
 
 export const QuestionServiceStub: Partial<QuestionService> = {
 
     getQuestionFromQueue: jasmine.createSpy('getQuestionFromQueue')
-    .and.returnValue(of(QuestionDto.createDtoWithNonEmptyFields()))
+    .and.returnValue(of(QuestionQueueDto.createDtoWithNonEmptyFields()))
 
 };

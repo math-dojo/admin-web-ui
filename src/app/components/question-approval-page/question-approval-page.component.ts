@@ -8,7 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./question-approval-page.component.scss']
 })
 export class QuestionApprovalPageComponent implements OnInit {
-  question: QuestionDto ;
+  question: QuestionDto =  QuestionDto.createDtoWithNonEmptyFields();
   exampleForm = new FormGroup({
     sample: new FormControl(''),
   });
@@ -20,7 +20,6 @@ export class QuestionApprovalPageComponent implements OnInit {
 
     this.questionService.getQuestionFromQueue().
     subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
-    console.log('here');
   }
   reject(): void {
     this.questionService.getQuestionFromQueue().subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
