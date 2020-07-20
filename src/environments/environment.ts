@@ -12,10 +12,10 @@ export const environment = {
   get apis() {
     return {
       get questionServiceConsumerEndpoint() {
-        return '';
+        return 'http://localhost:4201';
       },
       get queueServiceEndpoint() {
-        return '';
+        return 'http://localhost:4201';
       }
     };
   }

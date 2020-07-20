@@ -8,7 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./question-approval-page.component.scss']
 })
 export class QuestionApprovalPageComponent implements OnInit {
-  question: QuestionDto;
+  question: QuestionDto ;
   exampleForm = new FormGroup({
     sample: new FormControl(''),
   });
@@ -17,14 +17,18 @@ export class QuestionApprovalPageComponent implements OnInit {
   ) { }
 // think about how to deal with multiple people accessing the queue and what happens to dequeued question in limbo
   ngOnInit(): void {
-    this.questionService.getQuestionFromQueue().subscribe(question => this.question = question );
+
+    this.questionService.getQuestionFromQueue().
+    subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
+    console.log("here");
   }
   reject(): void {
-    this.questionService.getQuestionFromQueue().subscribe(question => this.question = question);
+    this.questionService.getQuestionFromQueue().subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
+    
   }
   approve(): void {
     this.questionService.postQuestion(this.question);
-    this.questionService.getQuestionFromQueue().subscribe(question => this.question = question);
+    this.questionService.getQuestionFromQueue().subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
   }
 
 

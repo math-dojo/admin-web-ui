@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "start-mock-backends": "json-server --port 4201 --watch ./mock-backends/db.json",
+    "serve-webapp": "ng serve",
+    "start": "concurrently \"npm run start-mock-backends\" \"npm run serve-webapp\""
   },
   "private": true,
   "dependencies": {

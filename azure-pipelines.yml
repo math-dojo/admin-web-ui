@@ -61,7 +61,7 @@ steps:
       eq(variables['Build.SourceBranch'], 'refs/heads/develop')
     )
 - script: |
-    npm run-script build
+    ng build --configuration=production
   displayName: 'npm build'
 
 - task: CopyFiles@2
