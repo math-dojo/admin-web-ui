@@ -15,7 +15,7 @@ export class QuestionApprovalPageComponent implements OnInit {
   constructor(
     private questionService: QuestionService,
   ) { }
-// think about how to deal with multiple people accessing the queue and what happens to dequeued question in limbo
+// maybe add put back button for concurrency issues. also add checks against approval 
   ngOnInit(): void {
 
     this.questionService.getQuestionFromQueue().
