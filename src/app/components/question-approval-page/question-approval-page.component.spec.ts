@@ -6,32 +6,33 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { KatexModule } from 'ng-katex';
 
-// describe('QuestionApprovalPageComponent', () => {
-//   let component: QuestionApprovalPageComponent;
-//   let fixture: ComponentFixture<QuestionApprovalPageComponent>;
+describe('QuestionApprovalPageComponent', () => {
+    let component: QuestionApprovalPageComponent;
+    let fixture: ComponentFixture<QuestionApprovalPageComponent>;
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [QuestionApprovalPageComponent],
-//       imports: [ClarityModule,
-//         ReactiveFormsModule,
-//         KatexModule]
-//     }).overrideComponent(QuestionApprovalPageComponent, {
-//       set: {
-//         providers: [
-//           { provide: QuestionService, useValue: QuestionServiceStub }
-//         ]
-//       }
-//     })
-//       .compileComponents();
-//       fixture = TestBed.createComponent(QuestionApprovalPageComponent);
-//       component = fixture.componentInstance;
-//       fixture.detectChanges();
-//   });
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        declarations: [QuestionApprovalPageComponent],
+        imports: [ClarityModule,
+          ReactiveFormsModule,
+          KatexModule]
+      }).overrideComponent(QuestionApprovalPageComponent, {
+        set: {
+          providers: [
+            { provide: QuestionService, useValue: QuestionServiceStub }
+          ]
+        }
+      })
+        .compileComponents();
+    }));
 
+    beforeEach(() => {
+      fixture = TestBed.createComponent(QuestionApprovalPageComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+  });

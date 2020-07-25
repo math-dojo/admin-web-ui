@@ -6,7 +6,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "e2e": "concurrently --kill-others --success first \"npm run start-mock-backends\" \"ng e2e --webdriverUpdate=false\"",
     "start-mock-backends": "json-server --port 4201 --watch ./mock-backends/db.json",
     "serve-webapp": "ng serve",
     "start": "concurrently \"npm run start-mock-backends\" \"npm run serve-webapp\""

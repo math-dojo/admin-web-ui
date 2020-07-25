@@ -10,13 +10,15 @@ import { ActionsComponent } from './components/actions/actions.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { KatexModule } from 'ng-katex';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionApprovalPageComponent,
     LandingPageComponent,
-    ActionsComponent
+    ActionsComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

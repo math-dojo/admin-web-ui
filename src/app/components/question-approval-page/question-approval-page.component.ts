@@ -15,19 +15,18 @@ export class QuestionApprovalPageComponent implements OnInit {
   constructor(
     private questionService: QuestionService,
   ) { }
-// maybe add put back button for concurrency issues. also add checks against approval 
+// maybe add put back button for concurrency issues. also add checks against approval
   ngOnInit(): void {
 
     this.questionService.getQuestionFromQueue().
     subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
   }
   reject(): void {
-    this.questionService.getQuestionFromQueue().subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
-
+    this.ngOnInit();
   }
   approve(): void {
     this.questionService.postQuestion(this.question);
-    this.questionService.getQuestionFromQueue().subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
+    this.ngOnInit();
   }
 
 
