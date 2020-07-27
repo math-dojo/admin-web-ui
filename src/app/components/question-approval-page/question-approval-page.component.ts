@@ -19,7 +19,7 @@ export class QuestionApprovalPageComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.question$ = this.questionService.getQuestionFromQueue().pipe(
-      map(questionFromQueue => questionFromQueue.hasOwnProperty('messageText') ? new QuestionDto(JSON.parse(questionFromQueue.messageText))
+      map(questionFromQueue => questionFromQueue !== null ? new QuestionDto(JSON.parse(questionFromQueue.messageText))
       : new QuestionDto(QuestionDto.createDtoWithNonEmptyFields()))
       );
   }
