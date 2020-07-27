@@ -8,11 +8,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  { path: 'login', component: LandingPageComponent },
-  { path: 'actions', component: ActionsComponent },
   { path: 'actions/approve', component: QuestionApprovalPageComponent },
-  { path: '', component: DashboardComponent },
+  { path: 'actions', component: ActionsComponent },
+  { path: 'login', component: LandingPageComponent },
   { path: 'home', component: DashboardComponent },
+  { path: '', component: DashboardComponent },
   { path: '**', component: PagenotfoundComponent }
 
 

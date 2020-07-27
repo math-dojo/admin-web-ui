@@ -2,31 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { QuestionDto } from 'src/app/models/question-dto';
 import { QuestionService } from 'src/app/services/question.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-question-approval-page',
   templateUrl: './question-approval-page.component.html',
   styleUrls: ['./question-approval-page.component.scss']
 })
 export class QuestionApprovalPageComponent implements OnInit {
-  question: QuestionDto =  QuestionDto.createDtoWithNonEmptyFields();
+  question$: Observable<QuestionDto>;
   exampleForm = new FormGroup({
     sample: new FormControl(''),
   });
   constructor(
     private questionService: QuestionService,
   ) { }
-// maybe add put back button for concurrency issues. also add checks against approval
   ngOnInit(): void {
-
-    this.questionService.getQuestionFromQueue().
-    subscribe(queue => this.question = new QuestionDto(JSON.parse(queue.messageText)));
+    this.question$ = this.questionService.getQuestionFromQueue().pipe(
+      map(questionFromQueue =>new QuestionDto(JSON.parse(questionFromQueue.messageText)))
+      );
   }
   reject(): void {
     this.ngOnInit();
   }
   approve(): void {
-    this.questionService.postQuestion(this.question);
-    this.ngOnInit();
+    this.question$.subscribe(q =>  this.questionService.postQuestion(q)); 
   }
 
 

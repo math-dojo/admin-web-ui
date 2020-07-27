@@ -14,11 +14,11 @@ describe('Given I navigate to the Actions page', () => {
     expect(foundActionsCards).toBeGreaterThanOrEqual(1);
   });
 
-  // it('it should navigate to the question approval view when I click the first card', () => {
-  //   page.clickFirstActionsCard();
-  //   const resourceUrl = page.getCurrentResourcePath();
-  //   expect(resourceUrl).toMatch('/actions/approve');
-  // });
+  it('it should navigate to the question approval view when I click the first card', () => {
+    page.clickFirstActionsCard();
+    const resourceUrl = page.getCurrentResourcePath();
+    expect(resourceUrl).toMatch('/actions/approve');
+  });
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

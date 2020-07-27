@@ -10,11 +10,9 @@ export class Utils {
     return browser.get(fullUrl.href) as Promise<any>;
   }
 
-  getCurrentResourcePath() {
-    return browser.getCurrentUrl().then(fullUrl => (new URL(fullUrl)).pathname);
+  async getCurrentResourcePath() {
+    const fullUrl = await browser.getCurrentUrl();
+    return (new URL(fullUrl)).pathname;
   }
 
-  getActiveSubNavText() {
-    return element(by.css('.subnav.mtdj__practice_subnav .nav-link.active'));
-  }
 }

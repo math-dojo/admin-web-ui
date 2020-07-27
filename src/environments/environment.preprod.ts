@@ -12,10 +12,10 @@ export const environment = {
   get apis() {
     return {
       get questionServiceConsumerEndpoint() {
-        return '';
+        return 'https://question-service-develop.azurewebsites.net/api/question';
       },
       get queueServiceEndpoint() {
-        return '';
+        return 'https://queuefunctiondevelop.azurewebsites.net/api';
       }
     };
   }
