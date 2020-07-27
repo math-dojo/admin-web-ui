@@ -3,7 +3,7 @@ import { QuestionDto } from 'src/app/models/question-dto';
 import { QuestionService } from 'src/app/services/question.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 @Component({
   selector: 'app-question-approval-page',
   templateUrl: './question-approval-page.component.html',
@@ -19,7 +19,8 @@ export class QuestionApprovalPageComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.question$ = this.questionService.getQuestionFromQueue().pipe(
-      map(questionFromQueue =>new QuestionDto(JSON.parse(questionFromQueue.messageText)))
+      map(questionFromQueue => questionFromQueue.hasOwnProperty('messageText') ? new QuestionDto(JSON.parse(questionFromQueue.messageText))
+      : new QuestionDto(QuestionDto.createDtoWithNonEmptyFields()))
       );
   }
   reject(): void {
