@@ -26,7 +26,7 @@ export class QuestionApprovalPageComponent implements OnInit {
     this.ngOnInit();
   }
   approve(): void {
-    this.question$.subscribe(q =>  this.questionService.postQuestion(q)); 
+    this.question$.subscribe(q =>  this.questionService.postQuestion(q));
   }
 
 
