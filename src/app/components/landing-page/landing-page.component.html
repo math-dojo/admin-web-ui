@@ -1,0 +1,69 @@
+<clr-main-container class="main-container">
+    <clr-header class="header header-1">
+        <div class="branding">
+            <a routerLink="/home" routerLinkActive="active" class="nav-link">
+                <img src="assets/dojo-transparent-white-outline.svg" alt="A dojo" class="mtdj__logo">
+                <span class="title">Math Dojo</span>
+            </a>
+        </div>
+        <div class="header-actions">
+            <a routerLink="/home" routerLinkActive="active" class="nav-link nav-text">
+                Home
+            </a>
+        </div>
+    </clr-header>
+    <div class="login-wrapper">
+
+        <form class="login mtdj__signupform" [formGroup]="newUserSignupForm" (submit)="onSubmit()">
+            <section class="title">
+                <h3 class="welcome">Welcome to</h3>
+                Math Dojo Admin UI
+            </section>
+            <div class="login-group">
+                <clr-input-container>
+                    <label class="clr-sr-only">Email</label>
+                    <input type="text" name="email" clrInput placeholder="Email" formControlName="email" />
+                </clr-input-container>
+                <clr-password-container>
+                    <label class="clr-sr-only">Password</label>
+                    <input type="password" name="password" clrPassword placeholder="Password"
+                        formControlName="password" />
+                </clr-password-container>
+                <div class="error active" [ngClass]="{'mtdj__remove_error': newUserSignupForm.valid}">
+                    Invalid user name or password
+                </div>
+                <a routerLink="/actions" routerLinkActive="active" type="submit" class="btn btn-primary">Sign In</a>
+                <div class="mtdj__social-login">
+                    <div class="mtdj__social-login-label">
+                        <span class="label-text">or connect with</span>
+                    </div>
+                    <div class="btn-group btn-link mtdj__social-login-icon">
+                        <button class="btn mtdj__social-login-icon-btn">
+                            <img class="mtdj__social-login-icon-btn-logo" src="/assets/facebook.svg">
+                        </button>
+                        <button class="btn mtdj__social-login-icon-btn">
+                            <img class="mtdj__social-login-icon-btn-logo" src="/assets/google.svg">
+                        </button>
+                        <button class="btn mtdj__social-login-icon-btn">
+                            <img class="mtdj__social-login-icon-btn-logo" src="/assets/github.svg">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="clr-row clr-justify-content-between">
+                <div class="clr-col-4">
+                    <span>Copyright &copy; 2019 Math-Dojo</span>
+                </div>
+                <div class="clr-col-3">
+                    <div>Dojo icon made by <a href="https://www.blackillustrations.com/black-illustration-packs"
+                            title="Freepik">blackillustrations</a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</clr-main-container>

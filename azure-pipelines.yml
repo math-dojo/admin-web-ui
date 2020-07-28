@@ -18,6 +18,16 @@ variables:
     appName: "pr$(System.PullRequest.PullRequestNumber)"
   ${{ if not(eq(variables['Build.Reason'], 'PullRequest')) }}:
     appName: "$(Build.SourceBranchName)"
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}: # only works if you have a master branch
+    envName: "preproduction"
+  ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}: # only works if you have a develop branch
+    envName: "nonproduction"
+  ${{ if contains(variables['Build.SourceBranchName'], 'ft') }}: # only works if you have a feature branch
+    envName: "nonproduction"
+  ${{ if contains(variables['Build.SourceBranchName'], 'merge') }}: # only works if you have a PR branch
+    envName: "nonproduction"
+  ${{ if contains(variables['Build.SourceBranchName'], 'rl') }}: # only works if you have a release branch
+    envName: "production"
 
 steps:
 - task: NodeTool@0
@@ -34,7 +44,7 @@ steps:
   displayName: 'run unit and integration tests'
 
 - script: |
-    ./node_modules/.bin/webdriver-manager update --versions.chrome=79.0.3945.36
+    ./node_modules/.bin/webdriver-manager update --versions.chrome=83.0.4103.39
   displayName: 'add chrome driver to node directory'
   condition: |
     or(
@@ -61,7 +71,7 @@ steps:
       eq(variables['Build.SourceBranch'], 'refs/heads/develop')
     )
 - script: |
-    npm run-script build
+    npm run-script build -- --configuration=$(envName)
   displayName: 'npm build'
 
 - task: CopyFiles@2
@@ -81,7 +91,7 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
        $accountNameExists = az storage account check-name --name adminuibuild$(appName) --subscription 5594cd6c-b674-4323-8517-5e859a399468 | ConvertFrom-Json
-        Write-Host "Does the account name exist for mathdojouibuild$(appName): $accountNameExists"
+        Write-Host "Does the account name exist for adminuibuild$(appName): $accountNameExists"
         If ($accountNameExists.nameAvailable) {
           try {
             az storage account create --name adminuibuild$(appName) --kind StorageV2 --location uksouth --resource-group math-dojo-hzprod-admin-ui --subscription 5594cd6c-b674-4323-8517-5e859a399468
@@ -98,7 +108,7 @@ steps:
     sourcePath: '$(Build.ArtifactStagingDirectory)'
     azureSubscription: math-dojo-admin-ui-pipeline
     destination: AzureBlob
-    storage: 'adminuibuild$(Build.SourceBranchName)'
+    storage: 'adminuibuild$(appName)'
     containerName: $web
     copyFilesInParallel: true
     cleanTargetBeforeCopy: true
@@ -110,4 +120,4 @@ steps:
     scriptType: ps
     scriptLocation: inlineScript
     inlineScript: |
-        az storage account show -n adminuibuild$(Build.SourceBranchName) -g math-dojo-hzprod-admin-ui --query "primaryEndpoints.web" --output tsv
+        az storage account show -n adminuibuild$(appName) -g math-dojo-hzprod-admin-ui --query "primaryEndpoints.web" --output tsv
