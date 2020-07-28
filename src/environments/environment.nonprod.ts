@@ -7,15 +7,15 @@ export const environment = {
     return false;
   },
   get name() {
-    return 'default';
+    return 'nonproduction';
   },
   get apis() {
     return {
       get questionServiceConsumerEndpoint() {
-        return 'http://localhost:4201';
+        return 'https://question-service-develop.azurewebsites.net/api/question';
       },
       get queueServiceEndpoint() {
-        return 'http://localhost:4201';
+        return 'https://queuefunctiondevelop.azurewebsites.net/api';
       }
     };
   }
